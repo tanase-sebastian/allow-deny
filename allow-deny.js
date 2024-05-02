@@ -198,7 +198,10 @@ CollectionPrototype._defineMutationMethods = function(options) {
             e.name === 'BulkWriteError' ||
             // for newer versions of MongoDB (https://docs.mongodb.com/drivers/node/current/whats-new/#bulkwriteerror---mongobulkwriteerror)
             e.name === 'MongoBulkWriteError' ||
-            e.name === 'MinimongoError'
+            e.name === 'MinimongoError' ||
+            // npm-mongo 4.0.0 will throw more specific errors instead of the generic MongoError
+            // Not sure if all specific errors should be handled
+            e.name === 'MongoServerError'
           ) {
             throw new Meteor.Error(409, e.toString());
           } else {
